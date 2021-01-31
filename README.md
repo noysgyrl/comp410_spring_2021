@@ -16,6 +16,7 @@ Basic intrusion detection using firewall logs
     * cd to directory you want to put this in 
     * git clone (Your fork URL - Green clone button)
     * cd comp410_spring_2021
+    * To keep your fork in sync with upstream we'll follow [these](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/working-with-forks) instructions.
   * Install requirements
     * conda install --file requirements.txt
   * python demo.py 
