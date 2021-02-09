@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def show_aggie_pride():
-    df = pd.DataFrame(['Aggie Pride', 'Worldwide', 'Greatest Homecoming On Earth'])
+    df = pd.DataFrame(['Aggie Pride', 'Worldwide', 'Aggies Do', 'Go Aggies', 'Aggies', 'Greatest Homecoming On Earth'])
     print(df)
 
 
