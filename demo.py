@@ -1,4 +1,5 @@
 import pandas as pd
+import id_pkg as intrusion_detect
 
 
 def show_aggie_pride():
@@ -8,6 +9,10 @@ def show_aggie_pride():
                        'Greatest Homecoming On Earth', 'Mens et Manus (Mind and Hand)',
                        'yay aggies','AGGIES CODE!'])
     print(df)
+
+    # Basic check to show LopParse is working
+    lp = intrusion_detect.LogParse()
+    print(lp.log_parse_id())
 
 
 if __name__ == "__main__":
