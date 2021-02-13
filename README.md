@@ -23,6 +23,6 @@ Basic intrusion detection using firewall logs
     * Runs a quick demo
   * Testing
     * conda install pytest-cov
-    * pytest --cov=asa_parser
+    * pytest --cov=id_pkg
 ## Pull Request Requirements
 * All pull requests much attach output from pytest showing all test cases passed along with the coverage report or pull request will be rejected.
