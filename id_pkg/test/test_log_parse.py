@@ -58,7 +58,8 @@ class LogParseTest(unittest.TestCase):
         # %ASA-1-103004: (Primary) Other firewall reports this firewall failed. Reason: reason-string.
         self.assertTrue(df.loc[103004, 'Type'] == 'ASA')
         self.assertTrue(df.loc[103004, 'Severity'] == 1)
-        self.assertTrue(df.loc[103004, 'Message'] == '(Primary) Other firewall reports this firewall failed.')
+        self.assertTrue(df.loc[103004, 'Text'] == '(Primary) Other firewall reports this firewall failed. Reason: '
+                                                  'reason-string.')
         self.assertTrue(df.loc[103004, 'Reason'] == 'reason-string.')
 
 
