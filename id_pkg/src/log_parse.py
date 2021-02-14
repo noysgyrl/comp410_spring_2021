@@ -10,6 +10,11 @@ class LogParse:
 
     def handle_message(self, df, id):
         """Handles specific syslog messages"""
+        # https://regex101.com
+        # https://developers.google.com/edu/python/regular-expressions
+        # https://www.w3schools.com/python/python_regex.asp
+        # https://rosie-lang.org
+
         # %ASA-1-103004: (Primary) Other firewall reports this firewall failed. Reason: reason-string.
         if id == 103004:
             (message, reason) = df.loc[id, 'Text'].split('Reason: ')
@@ -26,7 +31,6 @@ class LogParse:
 
         with open(syslog_file) as f:
             for line in f:
-                # https://developers.google.com/edu/python/regular-expressions
                 # %(Type)-(Severity)-(id): (Text)
                 m = re.search(r'^%(\w+)-(\d)-(\d+): (.+)', line)
                 # If the re matched
