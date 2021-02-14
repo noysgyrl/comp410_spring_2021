@@ -16,9 +16,9 @@ class LogParse:
         # https://rosie-lang.org
 
         # %ASA-1-103004: (Primary) Other firewall reports this firewall failed. Reason: reason-string.
+        # Parse the reason out of the text string
         if id == 103004:
             (message, reason) = df.loc[id, 'Text'].split('Reason: ')
-            df.loc[id, 'Message'] = message.rstrip()
             df.loc[id, 'Reason'] = reason.rstrip()
 
         return df
