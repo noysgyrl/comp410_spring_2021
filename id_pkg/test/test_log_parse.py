@@ -75,5 +75,10 @@ class LogParseTest(unittest.TestCase):
         self.assertEqual('Failed to initialize 4GE SSM I/O card (error error_string).', df.loc[114001, 'Text'])
         self.assertEqual('error_string', df.loc[114001, 'Error'])
 
+
+
+
+
+
 if __name__ == '__main__':
     unittest.main()
