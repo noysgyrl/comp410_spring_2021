@@ -29,7 +29,7 @@ class LogParse:
 
         if id == 114001:
             # %ASA-1-114001: Failed to initialize 4GE SSM I/O card (error error_string)
-            x = re.search(r'error (\w+)', df.loc[id, 'Text'])
+            x = re.search(r' \(error (\w+)\)', df.loc[id, 'Text'])
             if x:
                 df.loc[id, 'Error'] = x.group(1)
 
