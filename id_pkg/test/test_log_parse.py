@@ -28,7 +28,7 @@ class LogParseTest(unittest.TestCase):
 
         # Open the syslog file
         # https://docs.python.org/3/tutorial/inputoutput.html
-        with open(os.path.join(self.data_path, fname)) as f:
+        with open(os.path.join(self.data_path, fname), encoding='utf-8') as f:
             line_num = 1
             for line in f:
                 # create a string with the current file name and line number

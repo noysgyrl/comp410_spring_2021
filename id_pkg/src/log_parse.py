@@ -29,7 +29,7 @@ class LogParse:
         # https://pandas.pydata.org/docs/user_guide/index.html
         df = pd.DataFrame()
 
-        with open(syslog_file) as f:
+        with open(syslog_file, encoding='utf-8') as f:
             for line in f:
                 # %(Type)-(Severity)-(id): (Text)
                 m = re.search(r'^%(\w+)-(\d)-(\d+): (.+)', line)
