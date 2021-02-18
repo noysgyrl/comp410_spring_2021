@@ -62,6 +62,7 @@ class LogParseTest(unittest.TestCase):
                                                   'reason-string.')
         self.assertTrue(df.loc[103004, 'Reason'] == 'reason-string.')
 
+
         # %ASA-3-326028: Asynchronous error: error_message
         self.assertTrue(df.loc[326028, 'Type'] == 'ASA')
         # expected, actual
