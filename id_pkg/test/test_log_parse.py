@@ -82,5 +82,11 @@ class LogParseTest(unittest.TestCase):
         self.assertEqual('Failed to initialize SFP in 4GE SSM I/O card (error error_string).', df.loc[114002, 'Text'])
         self.assertEqual('error_string', df.loc[114002, 'Error'])
 
+        #%ASA-3-114019: Failed to set media type in 4GE SSM I/O card (error error_string)
+        self.assertTrue(df.loc[114019, 'Type'] == 'ASA')
+        self.assertEqual(3, df.loc[114019, 'Severity'])
+        self.assertEqual('Failed to set media type in 4GE SSM I/O card (error error_string).', df.loc[114019, 'Text'])
+        self.assertEqual('error_string', df.loc[114019, 'Error'])
+
 if __name__ == '__main__':
     unittest.main()
