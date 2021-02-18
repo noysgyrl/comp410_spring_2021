@@ -73,6 +73,7 @@ class LogParseTest(unittest.TestCase):
         self.assertTrue(df.loc[114001, 'Type'] == 'ASA')
         self.assertEqual(1, df.loc[114001, 'Severity'])
         self.assertEqual('Failed to initialize 4GE SSM I/O card (error error_string).', df.loc[114001, 'Text'])
+
         self.assertEqual('error_string', df.loc[114001, 'Error'])
 
 
