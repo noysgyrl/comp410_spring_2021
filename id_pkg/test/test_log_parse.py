@@ -62,6 +62,12 @@ class LogParseTest(unittest.TestCase):
                                                   'reason-string.')
         self.assertTrue(df.loc[103004, 'Reason'] == 'reason-string.')
 
+        # %ASA-1-114003: Failed to run cached commands in 4GE SSM I/O card (error error_string).
+        self.assertTrue(df.loc[114003, 'Type'] == 'ASA')
+        self.assertEqual(1, df.loc[114003, 'Severity'])
+        self.assertEqual('Failed to run cached commands in 4GE SSM I/O card (error error_string).', (df.loc[114003], 'Text'))
+        self.assertEqual('error_string', (df.loc[114003], 'Error'))
+
         # %ASA-3-326028: Asynchronous error: error_message
         self.assertTrue(df.loc[326028, 'Type'] == 'ASA')
         # expected, actual
