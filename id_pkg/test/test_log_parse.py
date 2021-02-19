@@ -69,6 +69,14 @@ class LogParseTest(unittest.TestCase):
         self.assertEqual('Asynchronous error: error_message', df.loc[326028, 'Text'])
         self.assertEqual('error_message', df.loc[326028, 'Error'])
 
+        # %ASA-1-105003: (Primary) Monitoring on interface interface_name waiting
+        self.assertEqual('ASA', df.loc[105003, 'Type'] )
+        self.assertEqual( 1, df.loc[105003, 'Severity'] )
+        self.assertEqual( '(Primary) Monitoring on interface interface_name waiting' , df.loc[105003, 'Text'])
+        self.assertEqual( 'interface_name waiting', df.loc[105003, 'Interface'])
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
