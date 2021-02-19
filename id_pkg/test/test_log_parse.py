@@ -62,7 +62,6 @@ class LogParseTest(unittest.TestCase):
                                                   'reason-string.')
         self.assertTrue(df.loc[103004, 'Reason'] == 'reason-string.')
 
-
         # %ASA-3-326028: Asynchronous error: error_message
         self.assertTrue(df.loc[326028, 'Type'] == 'ASA')
         # expected, actual
@@ -81,6 +80,13 @@ class LogParseTest(unittest.TestCase):
         self.assertEqual(1, df.loc[114002, 'Severity'])
         self.assertEqual('Failed to initialize SFP in 4GE SSM I/O card (error error_string).', df.loc[114002, 'Text'])
         self.assertEqual('error_string', df.loc[114002, 'Error'])
+
+        # %ASA-3-114007: Failed to get current msr in 4GE SSM I/O card (error error_string).
+        self.assertTrue(df.loc[114007, 'Type'] == 'ASA')
+        self.assertEqual(3, df.loc[114007, 'Severity'])
+        self.assertEqual('Failed to get current msr in 4GE SSM I/O card (error error_string).', df.loc[114007, 'Text'])
+        self.assertEqual('error_string', df.loc[114007, 'Error'])
+
 
         #%ASA-3-114019: Failed to set media type in 4GE SSM I/O card (error error_string)
         self.assertTrue(df.loc[114019, 'Type'] == 'ASA')
