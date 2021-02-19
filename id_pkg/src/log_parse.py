@@ -39,6 +39,12 @@ class LogParse:
             if match:
                 df.loc[id, 'Error'] = match.group(1)
 
+        if id == 114007:
+            # %ASA-3-114007: Failed to get current msr in 4GE SSM I/O card (error error_string).
+            match = re.search(r'error (\w+)', df.loc[id, 'Text'])
+            if match:
+                df.loc[id, 'Error'] = match.group(1)
+
         return df
 
     def parse_syslog_file(self, syslog_file):
