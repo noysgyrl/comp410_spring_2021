@@ -26,6 +26,12 @@ class LogParse:
             m = re.search(r' error: (\w+)', df.loc[id, 'Text'])
             if m:
                 df.loc[id, 'Error'] = m.group(1)
+        if id == 105003:
+            #%ASA-1-105003: (Primary) Monitoring on interface interface_name waiting
+            m = re.search(r' interface (\w+\s\w+)', df.loc[id, 'Text'])
+            if m:
+                df.loc[id, 'Interface'] = m.group(1)
+
 
         return df
 
