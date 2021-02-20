@@ -28,7 +28,7 @@ class LogParseTest(unittest.TestCase):
 
         # Open the syslog file
         # https://docs.python.org/3/tutorial/inputoutput.html
-        with open(os.path.join(self.data_path, fname)) as f:
+        with open(os.path.join(self.data_path, fname), encoding='utf-8') as f:
             line_num = 1
             for line in f:
                 # create a string with the current file name and line number
@@ -61,6 +61,13 @@ class LogParseTest(unittest.TestCase):
         self.assertTrue(df.loc[103004, 'Text'] == '(Primary) Other firewall reports this firewall failed. Reason: '
                                                   'reason-string.')
         self.assertTrue(df.loc[103004, 'Reason'] == 'reason-string.')
+
+        # %ASA-3-326028: Asynchronous error: error_message
+        self.assertTrue(df.loc[326028, 'Type'] == 'ASA')
+        # expected, actual
+        self.assertEqual(3, df.loc[326028, 'Severity'])
+        self.assertEqual('Asynchronous error: error_message', df.loc[326028, 'Text'])
+        self.assertEqual('error_message', df.loc[326028, 'Error'])
 
 
 if __name__ == '__main__':
