@@ -81,6 +81,13 @@ class LogParseTest(unittest.TestCase):
         self.assertEqual(1, df.loc[114002, 'Severity'])
         self.assertEqual('Failed to initialize SFP in 4GE SSM I/O card (error error_string).', df.loc[114002, 'Text'])
         self.assertEqual('error_string', df.loc[114002, 'Error'])
+        
+        # %ASA-1-114001: Failed to initialize 4GE SSM I/O card (error error_string).
+        self.assertTrue(df.loc[114001, 'Type'] == 'ASA')
+        # expected, actual
+        self.assertEqual(1, df.loc[114001, 'Severity'])
+        self.assertEqual('Failed to initialize 4GE SSM I/O card (error error_string).', df.loc[114001, 'Text'])
+        self.assertEqual('error_string', df.loc[114001, 'Error'])
 
 
 if __name__ == '__main__':
