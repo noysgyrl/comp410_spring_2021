@@ -69,6 +69,13 @@ class LogParseTest(unittest.TestCase):
         self.assertEqual('Asynchronous error: error_message', df.loc[326028, 'Text'])
         self.assertEqual('error_message', df.loc[326028, 'Error'])
 
+        # %ASA-3-114018: Failed to set port speed in 4GE SSM I/O card (error error_string).
+        self.assertTrue(df.loc[114018, 'Type'] == 'ASA')
+        # expected, actual
+        self.assertEqual(3, df.loc[114018, 'Severity'])
+        self.assertEqual('Failed to set port speed in 4GE SSM I/O card (error error_string).', df.loc[114018, 'Text'])
+        self.assertEqual('error_string', df.loc[114018, 'Error'])
+
 
 if __name__ == '__main__':
     unittest.main()
