@@ -22,7 +22,7 @@ class LogParse:
             df.loc[id, 'Reason'] = reason.rstrip()
 
         if id == 105004:
-            # %ASA-3-326028: Asynchronous error: error_message
+            # %ASA-1-105004: (Primary) Monitoring on interface interface_name normal
             m = re.search(r' interface (\w+\s\w+)', df.loc[id, 'Text'])
             if m:
                 df.loc[id, 'Interface'] = m.group(1)
