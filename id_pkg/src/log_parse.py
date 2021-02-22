@@ -21,6 +21,12 @@ class LogParse:
             (message, reason) = df.loc[id, 'Text'].split('Reason: ')
             df.loc[id, 'Reason'] = reason.rstrip()
 
+        if id == 105004:
+            # %ASA-3-326028: Asynchronous error: error_message
+            m = re.search(r' interface (\w+\s\w+)', df.loc[id, 'Text'])
+            if m:
+                df.loc[id, 'Interface'] = m.group(1)
+
         return df
 
     def parse_syslog_file(self, syslog_file):
@@ -29,7 +35,7 @@ class LogParse:
         # https://pandas.pydata.org/docs/user_guide/index.html
         df = pd.DataFrame()
 
-        with open(syslog_file) as f:
+        with open(syslog_file, encoding='utf-8') as f:
             for line in f:
                 # %(Type)-(Severity)-(id): (Text)
                 m = re.search(r'^%(\w+)-(\d)-(\d+): (.+)', line)
