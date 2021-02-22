@@ -32,6 +32,11 @@ class LogParse:
             if m:
                 df.loc[id, 'Interface'] = m.group(1)
 
+        if id == 105008:
+            #Implement %ASA-1-105008: (Primary) Testing interface interface_name.
+            m = re.search(r' interface (\w+)', df.loc[id, 'Text'])
+            if m:
+                df.loc[id, 'Interface'] = m.group(1)
 
         return df
 
