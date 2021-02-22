@@ -99,6 +99,13 @@ class LogParseTest(unittest.TestCase):
         self.assertEqual('Failed to set media type in 4GE SSM I/O card (error error_string).', df.loc[114019, 'Text'])
         self.assertEqual('error_string', df.loc[114019, 'Error'])
 
+        # %ASA-3-114018: Failed to set port speed in 4GE SSM I/O card (error error_string).
+        self.assertTrue(df.loc[114018, 'Type'] == 'ASA')
+        self.assertTrue(df.loc[114018, 'Severity'] == 3)
+        self.assertTrue(df.loc[114018, 'Text'] == 'Failed to set port speed in 4GE SSM I/O card (error error_string).')
+        self.assertTrue(df.loc[114018, 'Error'] == 'error_string')
+
+
 
 if __name__ == '__main__':
     unittest.main()
