@@ -38,6 +38,12 @@ class LogParse:
             if m:
                 df.loc[id, 'Interface'] = m.group(1)
 
+        if id == 105004:
+            # %ASA-1-105004: (Primary) Monitoring on interface interface_name normal
+            m = re.search(r' interface (\w+\s\w+)', df.loc[id, 'Text'])
+            if m:
+                df.loc[id, 'Interface'] = m.group(1)
+
         return df
 
     def parse_syslog_file(self, syslog_file):

@@ -81,6 +81,13 @@ class LogParseTest(unittest.TestCase):
         self.assertEqual('(Primary) Testing interface interface_name.', df.loc[105008, 'Text'])
         self.assertEqual('interface_name', df.loc[105008, 'Interface'])
 
+        # %ASA-1-105004: (Primary) Monitoring on interface interface_name normal
+        self.assertTrue(df.loc[105004, 'Type'] == 'ASA')
+        # expected, actual
+        self.assertEqual(1, df.loc[105004, 'Severity'])
+        self.assertEqual('(Primary) Monitoring on interface interface_name normal', df.loc[105004, 'Text'])
+        self.assertEqual('interface_name normal', df.loc[105004, 'Interface'])
+
 
 if __name__ == '__main__':
     unittest.main()
