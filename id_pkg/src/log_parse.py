@@ -102,6 +102,11 @@ class LogParse:
             if m:
                 df.loc[id, 'Error'] = m.group(1)
 
+        # %ASA-3-114006: Failed to get port statistics in 4GE SSM I/O card (error error_string)
+        if id == 114006:
+            m = re.search(r'\(error (\w+)\)', df.loc[id, 'Text'])
+            if m:
+                df.loc[id, 'Error'] = m.group(1)
 
         return df
 
