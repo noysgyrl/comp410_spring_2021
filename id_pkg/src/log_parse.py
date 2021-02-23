@@ -26,6 +26,23 @@ class LogParse:
             m = re.search(r' error: (\w+)', df.loc[id, 'Text'])
             if m:
                 df.loc[id, 'Error'] = m.group(1)
+        if id == 105003:
+            #%ASA-1-105003: (Primary) Monitoring on interface interface_name waiting
+            m = re.search(r' interface (\w+\s\w+)', df.loc[id, 'Text'])
+            if m:
+                df.loc[id, 'Interface'] = m.group(1)
+
+        if id == 105008:
+            #Implement %ASA-1-105008: (Primary) Testing interface interface_name.
+            m = re.search(r' interface (\w+)', df.loc[id, 'Text'])
+            if m:
+                df.loc[id, 'Interface'] = m.group(1)
+
+        if id == 105004:
+            # %ASA-1-105004: (Primary) Monitoring on interface interface_name normal
+            m = re.search(r' interface (\w+\s\w+)', df.loc[id, 'Text'])
+            if m:
+                df.loc[id, 'Interface'] = m.group(1)
 
         if id == 114017:
             # %ASA-3-114017: Failed to get link status in 4GE SSM I/O card (error error_string).
