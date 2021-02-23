@@ -3,6 +3,7 @@ import unittest
 import id_pkg as intrusion_detect
 import git
 import os
+import pandas as pd
 
 
 class LogParseTest(unittest.TestCase):
@@ -60,6 +61,25 @@ class LogParseTest(unittest.TestCase):
         self.assertTrue(df.loc[103004, 'Text'] == '(Primary) Other firewall reports this firewall failed. Reason: '
                                                   'reason-string.')
         self.assertTrue(df.loc[103004, 'Reason'] == 'reason-string.')
+
+        # %ASA-3-326028: Asynchronous error: error_message
+        self.assertTrue(df.loc[326028, 'Type'] == 'ASA')
+        # expected, actual
+        self.assertEqual(3, df.loc[326028, 'Severity'])
+        self.assertEqual('Asynchronous error: error_message', df.loc[326028, 'Text'])
+        self.assertEqual('error_message', df.loc[326028, 'Error'])
+
+        # %ASA-1-105003: (Primary) Monitoring on interface interface_name waiting
+        self.assertEqual('ASA', df.loc[105003, 'Type'] )
+        self.assertEqual( 1, df.loc[105003, 'Severity'] )
+        self.assertEqual( '(Primary) Monitoring on interface interface_name waiting' , df.loc[105003, 'Text'])
+        self.assertEqual( 'interface_name waiting', df.loc[105003, 'Interface'])
+
+        # %ASA-1-105008: (Primary) Testing interface interface_name.
+        self.assertEqual('ASA', df.loc[105008, 'Type'])
+        self.assertEqual(1, df.loc[105008, 'Severity'])
+        self.assertEqual('(Primary) Testing interface interface_name.', df.loc[105008, 'Text'])
+        self.assertEqual('interface_name', df.loc[105008, 'Interface'])
 
         # %ASA-1-105004: (Primary) Monitoring on interface interface_name normal
         self.assertTrue(df.loc[105004, 'Type'] == 'ASA')
