@@ -2,7 +2,6 @@ import unittest
 import git
 import os
 import id_pkg as intrusion_detect
-import pandas as pd
 
 
 class TestIpSpoofing(unittest.TestCase):
@@ -36,9 +35,8 @@ class TestIpSpoofing(unittest.TestCase):
                 f.write(log_string)
 
     def test_ip_spoofing_parse_log(self):
-        lp = intrusion_detect.LogParse()
-        spoof_df = lp.syslog_to_dataframe(self.syslog_file)
-        self.assertEqual(['Date', 'Host', 'ID', 'Severity', 'Text', 'Type'], spoof_df.columns.tolist())
+        id_syslog = intrusion_detect.IdParse(self.syslog_file)
+        self.assertEqual(['Date', 'Host', 'ID', 'Severity', 'Text', 'Type'], id_syslog.df.columns.tolist())
 
 
 if __name__ == '__main__':
