@@ -144,8 +144,8 @@ class LogParse:
                     df = df.append({'Date': m.group(1),
                                     'Host': m.group(2),
                                     'Type': m.group(3),
-                                    'Severity': m.group(4),
-                                    'ID': m.group(5),
+                                    'Severity': int(m.group(4)),
+                                    'ID': int(m.group(5)),
                                     'Text': m.group(6)},
                                    ignore_index=True)
         return df
