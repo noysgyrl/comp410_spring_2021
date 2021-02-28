@@ -111,7 +111,7 @@ class LogParse:
         return df
 
     def parse_syslog_file(self, syslog_file):
-        """Returns a dataframe of parsed syslogs"""
+        """Returns a dataframe of parsed example syslogs"""
 
         # https://pandas.pydata.org/docs/user_guide/index.html
         df = pd.DataFrame()
@@ -128,5 +128,4 @@ class LogParse:
                     df.loc[id, 'Text'] = m.group(4).rstrip()
 
                     df = self.handle_message(df, id)
-
         return df
