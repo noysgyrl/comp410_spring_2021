@@ -129,23 +129,3 @@ class LogParse:
 
                     df = self.handle_message(df, id)
         return df
-
-    def syslog_to_dataframe(self, syslog_file):
-        """Returns a dataframe from a sample syslog file"""
-        # https://pandas.pydata.org/docs/user_guide/index.html
-        df = pd.DataFrame()
-
-        with open(syslog_file, encoding='utf-8') as f:
-            for line in f:
-                # Sep 12 2014 06:50:53 HOST : %ASA-2-106016: Text
-                m = re.search(r'^(\w+ \w+ \w+ \d+:\d+:\d+) (\w+) : %(\w+)-(\d)-(\d+): (.+)', line)
-                # If the re matched
-                if m:
-                    df = df.append({'Date': m.group(1),
-                                    'Host': m.group(2),
-                                    'Type': m.group(3),
-                                    'Severity': int(m.group(4)),
-                                    'ID': int(m.group(5)),
-                                    'Text': m.group(6)},
-                                   ignore_index=True)
-        return df
