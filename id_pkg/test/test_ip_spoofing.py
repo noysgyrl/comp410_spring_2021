@@ -53,6 +53,13 @@ class TestIpSpoofing(unittest.TestCase):
         # Expecting 255 unique destination addresses
         self.assertEqual(255, sdf['Destination'].nunique())
 
+    def test_has_ip_spoofing(self):
+        id_syslog = intrusion_detect.IdParse(self.syslog_file)
+
+        # The test file generated has ip spoofing present
+        # so expect this to return true
+        self.assertTrue(id_syslog.has_ip_spoofing())
+
 
 if __name__ == '__main__':
     unittest.main()
