@@ -35,24 +35,6 @@ class TestIpSpoofing(unittest.TestCase):
                 log_string = log_string + ' on interface ' + info['Interface'] + '\n'
                 f.write(log_string)
 
-    def test_ip_spoofing_parse_log(self):
-        # Create an IdParse object
-        id_syslog = intrusion_detect.IdParse(self.syslog_file)
-
-        # Check to make sure the ip spoofing information got added to the dataframe
-        # Get a subset of the whole dataframe
-        # s=spoof df=dataframe
-        sdf = id_syslog.df[id_syslog.df['ID'] == 106016]
-
-        # Expecting 255 total records
-        self.assertEqual(255, len(sdf))
-
-        # Expecting 1 source address
-        self.assertTrue((sdf['Source'] == '10.1.1.1').all())
-
-        # Expecting 255 unique destination addresses
-        self.assertEqual(255, sdf['Destination'].nunique())
-
 
 if __name__ == '__main__':
     unittest.main()
