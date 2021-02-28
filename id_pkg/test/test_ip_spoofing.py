@@ -4,6 +4,9 @@ import os
 
 
 class TestIpSpoofing(unittest.TestCase):
+    git_root = os.path.join(git.Repo('.', search_parent_directories=True).working_tree_dir, 'id_pkg')
+    syslog_file = os.path.join(git_root, 'data', 'ip_spoofing.txt')
+
     def test_ip_spoofing_stub(self):
         self.assertEqual(True, True)
 
@@ -16,13 +19,9 @@ class TestIpSpoofing(unittest.TestCase):
                 'ID': '%ASA-2-106016',
                 'Interface': 'TestInterface'}
 
-        # Get the path to the data directory in the git repo
-        git_root = os.path.join(git.Repo('.', search_parent_directories=True).working_tree_dir, 'id_pkg')
-        data_path = os.path.join(git_root, 'data')
-
         # Create a sample log file
         # https://docs.python.org/3/tutorial/inputoutput.html
-        with open(os.path.join(data_path,'ip_spoofing.txt'), 'w') as f:
+        with open(self.syslog_file, 'w') as f:
             for ip_address_d in range(1,256,1):
                 # Create the first part of the message
                 log_string = info['Date'] + ' ' + info['Host'] + ' : ' + info['ID'] + ': '
