@@ -11,6 +11,13 @@ class IdParse(LogParse):
 
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
+        # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
+        if rec['ID'] == 106016:
+            m = re.search(r'from \((\d+\.\d+\.\d+\.\d+)\) to (\d+\.\d+\.\d+\.\d+) on interface (\w+)', rec['Text'])
+            if m:
+                rec['Source'] = m.group(1)
+                rec['Destination'] = m.group(2)
+                rec['Interface'] = m.group(3)
         return rec
 
     def handle_syslog_message(self, line):
