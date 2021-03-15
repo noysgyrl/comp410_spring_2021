@@ -14,6 +14,9 @@ class IdParse(LogParse):
         # Returns true if the ip spoofing id appears in the dataframe
         return (self.df['ID'] == 106016).any()
 
+    def has_firewall(self):
+        return (self.df['ID'] == 713162).any()
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
@@ -23,6 +26,14 @@ class IdParse(LogParse):
                 rec['Source'] = m.group(1)
                 rec['Destination'] = m.group(2)
                 rec['Interface'] = m.group(3)
+
+        #%ASA-3-713162: Remote user (session Id - id) has been rejected by the Firewall Server
+        if rec['ID'] == 713162:
+            m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
+            if m:
+                rec['Session'] = m.group(1)
+                rec['Identifier'] = m.group(2)
+
         return rec
 
     def handle_syslog_message(self, line):
