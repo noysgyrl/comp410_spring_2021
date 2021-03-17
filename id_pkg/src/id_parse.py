@@ -8,7 +8,7 @@ class IdParse(LogParse):
 
     def __init__(self, syslog_file):
         self.syslog_to_dataframe(syslog_file)
-
+#note
     def has_ip_spoofing(self):
         # https://pandas.pydata.org/docs/reference/api/pandas.Series.any.html
         return (self.df['ID'] == 106016).any()
