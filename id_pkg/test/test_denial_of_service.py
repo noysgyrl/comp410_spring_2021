@@ -46,6 +46,10 @@ class TestDenialOfService(unittest.TestCase):
         # Expecting 1 non-unique source address
         self.assertTrue((dosdf['Source'] == '10.203.254.158').all())
 
+    def test_has_dos_attack(self):
+        id_syslog = id_pkg.IdParse(self.syslog_file)
+        self.assertTrue(id_syslog.has_dos_attack())
+
 
 if __name__ == '__main__':
     unittest.main()
