@@ -23,7 +23,7 @@ class TestDenialOfService(unittest.TestCase):
     with open(syslog_file, 'w') as f:
         for ip_address_d in range(1,256,1):
             # Generate a random IPv4 address in four parts
-            ip_address_1 = str(random.randint(1, 255))
+            ip_address_1 = "10"
             ip_address_2 = str(random.randint(1, 255))
             ip_address_3 = str(random.randint(1, 255))
             ip_address_4 = str(random.randint(1, 255))
