@@ -21,13 +21,13 @@ class TestDenialOfService(unittest.TestCase):
 
     # Create a sample log file
     with open(syslog_file, 'w') as f:
-        for ip_address_d in range(1,256,1):
-            # Generate a random IPv4 address in four parts
-            ip_address_1 = "10"
-            ip_address_2 = str(random.randint(1, 255))
-            ip_address_3 = str(random.randint(1, 255))
-            ip_address_4 = str(random.randint(1, 255))
+        # Generate a random IPv4 address in four parts
+        ip_address_1 = "10"
+        ip_address_2 = str(random.randint(1, 255))
+        ip_address_3 = str(random.randint(1, 255))
+        ip_address_4 = str(random.randint(1, 255))
 
+        for ip_address_d in range(1,256,1):
             # Create the first part of the message
             log_string = info['Date'] + ' ' + info['Host'] + ' : ' + info['ID'] + ': '
             # Next add the source IP address message
