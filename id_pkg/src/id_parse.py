@@ -11,18 +11,38 @@ class IdParse(LogParse):
 
     def has_ip_spoofing(self):
         # https://pandas.pydata.org/docs/reference/api/pandas.Series.any.html
-        # Returns true if the ip spoofing id appears in the dataframe
         return (self.df['ID'] == 106016).any()
+
+    def has_acldrop(self):
+        return (self.df['ID'] == 733100).any()
 
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
-        # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
+    # %ASA-2-106016: Deny IP spoof from (IP_address) to IP_address on interface interface_name
         if rec['ID'] == 106016:
             m = re.search(r'from \((\d+\.\d+\.\d+\.\d+)\) to (\d+\.\d+\.\d+\.\d+) on interface (\w+)', rec['Text'])
             if m:
                 rec['Source'] = m.group(1)
                 rec['Destination'] = m.group(2)
                 rec['Interface'] = m.group(3)
+        # %ASA-4-733100: Object drop rate rate_ID exceeded.
+        # Current burst rate is rate_val per second,
+        # max configured rate is rate_val;
+        # Current average rate is rate_val per second,
+        # max configured rate is rate_val;
+        # Cumulative total count is total_cnt
+
+        if rec['ID'] == 733100:
+            m = re.search( r'rate-(\d+) exceeded. Current burst rate is (\d+) per second, max configured rate is ('
+                           r'\d+); Current average rate is (\d+) per second, max configured rate is (\d+); Cumulative '
+                           r'total count is (\d+)', rec['Text'])
+        if m:
+            rec['DropRate'] = m.group(1)
+            rec['BurstRate'] = m.group(2)
+            rec['MaxConfigRate1'] = m.group(3)
+            rec['CurrentAverageRate'] = m.group(4)
+            rec['MaxConfigRate2'] = m.group(5)
+            rec['TotalCount'] = m.group(6)
         return rec
 
     def handle_syslog_message(self, line):
