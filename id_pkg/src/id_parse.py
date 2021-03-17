@@ -23,6 +23,13 @@ class IdParse(LogParse):
                 rec['Source'] = m.group(1)
                 rec['Destination'] = m.group(2)
                 rec['Interface'] = m.group(3)
+
+        # %ASA-4-109017: User at IP_address exceeded auth proxy connection limit (max)
+        if rec['ID'] == 109017:
+            m = re.search(r'User at (\d+\.\d+\.\d+\.\d+) exceeded auth proxy connection limit \(max\)', rec['Text'])
+            if m:
+                rec['Source'] = m.group(1)
+
         return rec
 
     def handle_syslog_message(self, line):
