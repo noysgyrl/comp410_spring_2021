@@ -17,6 +17,9 @@ class IdParse(LogParse):
     def has_dos_attack(self):
         return (self.df['ID'] == 109017).any()
 
+    def has_firewall(self):
+        return (self.df['ID'] == 713162).any()
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
@@ -32,7 +35,14 @@ class IdParse(LogParse):
             m = re.search(r'User at (\d+\.\d+\.\d+\.\d+) exceeded auth proxy connection limit \(max\)', rec['Text'])
             if m:
                 rec['Source'] = m.group(1)
-
+                
+        #%ASA-3-713162: Remote user (session Id - id) has been rejected by the Firewall Server
+        if rec['ID'] == 713162:
+            m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
+            if m:
+                rec['Session'] = m.group(1)
+                rec['Identifier'] = m.group(2)
+                
         return rec
 
     def handle_syslog_message(self, line):
