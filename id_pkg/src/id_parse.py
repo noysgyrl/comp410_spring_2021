@@ -14,6 +14,9 @@ class IdParse(LogParse):
         # Returns true if the ip spoofing id appears in the dataframe
         return (self.df['ID'] == 106016).any()
 
+    def has_dos_attack(self):
+        return (self.df['ID'] == 109017).any()
+
     def has_firewall(self):
         return (self.df['ID'] == 713162).any()
 
@@ -27,13 +30,19 @@ class IdParse(LogParse):
                 rec['Destination'] = m.group(2)
                 rec['Interface'] = m.group(3)
 
+        # %ASA-4-109017: User at IP_address exceeded auth proxy connection limit (max)
+        if rec['ID'] == 109017:
+            m = re.search(r'User at (\d+\.\d+\.\d+\.\d+) exceeded auth proxy connection limit \(max\)', rec['Text'])
+            if m:
+                rec['Source'] = m.group(1)
+                
         #%ASA-3-713162: Remote user (session Id - id) has been rejected by the Firewall Server
         if rec['ID'] == 713162:
             m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
             if m:
                 rec['Session'] = m.group(1)
                 rec['Identifier'] = m.group(2)
-
+                
         return rec
 
     def handle_syslog_message(self, line):
