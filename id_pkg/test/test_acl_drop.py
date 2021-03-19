@@ -72,8 +72,7 @@ class TestACLDROP(unittest.TestCase):
 
     def test_has_acldrop(self):
         id_syslog = intrusion_detect.IdParse(self.syslog_file)
-        # The test file generated has ip spoofing present
-        # so expect this to return true
+
         self.assertTrue(id_syslog.has_acldrop())
 
 
