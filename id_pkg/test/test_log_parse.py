@@ -33,15 +33,15 @@ class LogParseTest(unittest.TestCase):
             for line in f:
                 # create a string with the current file name and line number
                 # for use in error messages
-                ln = fname+':'+str(line_num)+' '
+                ln = fname + ':' + str(line_num) + ' '
 
                 # expect all lines to begin with %ASA-
                 # https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertRegex
-                self.assertRegex(line, r'^%ASA-', ln+'does not start with %ASA-')
+                self.assertRegex(line, r'^%ASA-', ln + 'does not start with %ASA-')
 
                 # Make sure there are no other %ASA which would indicate a
                 # merged line or other problem in the syslog file
-                self.assertNotRegex(line, r'.%ASA', ln+'extra %ASA found')
+                self.assertNotRegex(line, r'.%ASA', ln + 'extra %ASA found')
 
                 line_num += 1
 
@@ -65,7 +65,8 @@ class LogParseTest(unittest.TestCase):
         # %ASA-1-114003: Failed to run cached commands in 4GE SSM I/O card (error error_string).
         self.assertTrue(df.loc[114003, 'Type'] == 'ASA')
         self.assertEqual(1, df.loc[114003, 'Severity'])
-        self.assertEqual('Failed to run cached commands in 4GE SSM I/O card (error error_string).', df.loc[114003, 'Text'])
+        self.assertEqual('Failed to run cached commands in 4GE SSM I/O card (error error_string).',
+                         df.loc[114003, 'Text'])
         self.assertEqual('error_string', df.loc[114003, 'Error'])
 
         # %ASA-3-326028: Asynchronous error: error_message
@@ -105,12 +106,11 @@ class LogParseTest(unittest.TestCase):
         self.assertTrue(df.loc[114018, 'Text'] == 'Failed to set port speed in 4GE SSM I/O card (error error_string).')
         self.assertTrue(df.loc[114018, 'Error'] == 'error_string')
 
-
         # %ASA-1-105003: (Primary) Monitoring on interface interface_name waiting
-        self.assertEqual('ASA', df.loc[105003, 'Type'] )
-        self.assertEqual( 1, df.loc[105003, 'Severity'] )
-        self.assertEqual( '(Primary) Monitoring on interface interface_name waiting' , df.loc[105003, 'Text'])
-        self.assertEqual( 'interface_name waiting', df.loc[105003, 'Interface'])
+        self.assertEqual('ASA', df.loc[105003, 'Type'])
+        self.assertEqual(1, df.loc[105003, 'Severity'])
+        self.assertEqual('(Primary) Monitoring on interface interface_name waiting', df.loc[105003, 'Text'])
+        self.assertEqual('interface_name waiting', df.loc[105003, 'Interface'])
 
         # %ASA-1-105008: (Primary) Testing interface interface_name.
         self.assertEqual('ASA', df.loc[105008, 'Type'])

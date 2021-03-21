@@ -3,6 +3,7 @@ import git
 import os
 import id_pkg as intrusion_detect
 import pandas as pd
+import random
 
 
 class TestACLDROP(unittest.TestCase):
@@ -22,12 +23,12 @@ class TestACLDROP(unittest.TestCase):
 
     with open(syslog_file, 'w') as f:
         for i in range(1, 256, 1):
-            dropRate=i
-            burstRate=i
-            MaxConfigRate1=i
-            CurrentAverageRate=i
-            MaxConfigRate2=i
-            TotalCount=i
+            dropRate = i
+            burstRate = i
+            MaxConfigRate1 = i
+            CurrentAverageRate = i
+            MaxConfigRate2 = i
+            TotalCount = i
             # Create the first part of the message
             log_string = info['Date'] + ' ' + info['Host'] + ' : ' + info['ID'] + ': '
 
@@ -56,13 +57,10 @@ class TestACLDROP(unittest.TestCase):
     def test_acl_drop_parse_log(self):
         # Create an IdParse object
         id_syslog = intrusion_detect.IdParse(self.syslog_file)
-
         sdf = id_syslog.df[id_syslog.df['ID'] == 733100]
-
         # Expecting 255 total records
         self.assertEqual(255, len(sdf))
         # Expecting 255 unique destination addresses
-
         self.assertEqual(255, sdf['DropRate'].nunique())
         self.assertEqual(255, sdf['BurstRate'].nunique())
         self.assertEqual(255, sdf['MaxConfigRate1'].nunique())
@@ -72,7 +70,8 @@ class TestACLDROP(unittest.TestCase):
 
     def test_has_acldrop(self):
         id_syslog = intrusion_detect.IdParse(self.syslog_file)
-
+        # The test file generated has ip spoofing present
+        # so expect this to return true
         self.assertTrue(id_syslog.has_acldrop())
 
 
