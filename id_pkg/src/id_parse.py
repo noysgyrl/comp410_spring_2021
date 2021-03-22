@@ -54,10 +54,10 @@ class IdParse(LogParse):
             # Cumulative total count is total_cnt
 
         if rec['ID'] == 733100:
-                m = re.search(r'rate-(\d+) exceeded. Current burst rate is (\d+) per second, max configured rate is ('
-                              r'\d+); Current average rate is (\d+) per second, max configured rate is (\d+); Cumulative '
-                              r'total count is (\d+)', rec['Text'])
-        if m:
+            m = re.search(r'rate-(\d+) exceeded. Current burst rate is (\d+) per second, max configured rate is ('
+                          r'\d+); Current average rate is (\d+) per second, max configured rate is (\d+); Cumulative '
+                          r'total count is (\d+)', rec['Text'])
+            if m:
                 rec['DropRate'] = m.group(1)
                 rec['BurstRate'] = m.group(2)
                 rec['MaxConfigRate1'] = m.group(3)
