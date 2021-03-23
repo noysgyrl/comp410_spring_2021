@@ -14,6 +14,15 @@ class IdParse(LogParse):
         # Returns true if the ip spoofing id appears in the dataframe
         return (self.df['ID'] == 106016).any()
 
+    def has_dos_attack(self):
+        return (self.df['ID'] == 109017).any()
+
+    def has_firewall(self):
+        return (self.df['ID'] == 713162).any()
+
+    def has_acldrop(self):
+        return (self.df['ID'] == 733100).any()
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
@@ -23,6 +32,38 @@ class IdParse(LogParse):
                 rec['Source'] = m.group(1)
                 rec['Destination'] = m.group(2)
                 rec['Interface'] = m.group(3)
+
+        # %ASA-4-109017: User at IP_address exceeded auth proxy connection limit (max)
+        if rec['ID'] == 109017:
+            m = re.search(r'User at (\d+\.\d+\.\d+\.\d+) exceeded auth proxy connection limit \(max\)', rec['Text'])
+            if m:
+                rec['Source'] = m.group(1)
+
+        # %ASA-3-713162: Remote user (session Id - id) has been rejected by the Firewall Server
+        if rec['ID'] == 713162:
+            m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
+            if m:
+                rec['Session'] = m.group(1)
+                rec['Identifier'] = m.group(2)
+
+            # %ASA-4-733100: Object drop rate rate_ID exceeded.
+            # Current burst rate is rate_val per second,
+            # max configured rate is rate_val;
+            # Current average rate is rate_val per second,
+            # max configured rate is rate_val;
+            # Cumulative total count is total_cnt
+
+        if rec['ID'] == 733100:
+            m = re.search(r'rate-(\d+) exceeded. Current burst rate is (\d+) per second, max configured rate is ('
+                          r'\d+); Current average rate is (\d+) per second, max configured rate is (\d+); Cumulative '
+                          r'total count is (\d+)', rec['Text'])
+            if m:
+                rec['DropRate'] = m.group(1)
+                rec['BurstRate'] = m.group(2)
+                rec['MaxConfigRate1'] = m.group(3)
+                rec['CurrentAverageRate'] = m.group(4)
+                rec['MaxConfigRate2'] = m.group(5)
+                rec['TotalCount'] = m.group(6)
 
         # % ASA - 4 - 733101: Object objectIP ( is targeted | is attacking). Current burst rate is rate_val per second,
         # max configured rate is rate_val; Current average rate is rate_val per second, max configured rate is rate_val;
