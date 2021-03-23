@@ -23,6 +23,16 @@ class IdParse(LogParse):
                 rec['Source'] = m.group(1)
                 rec['Destination'] = m.group(2)
                 rec['Interface'] = m.group(3)
+
+        # % ASA - 4 - 733101: Object objectIP ( is targeted | is attacking). Current burst rate is rate_val per second,
+        # max configured rate is rate_val; Current average rate is rate_val per second, max configured rate is rate_val;
+        # Cumulative total count is total_cnt.
+
+        if rec['ID'] == 733101:
+            m = re.search(r'Current burst rate is (\d+) per second,', rec['Text'])
+            if m:
+                rec['Burst_Rate'] = int(m.group(1))
+
         return rec
 
     def handle_syslog_message(self, line):

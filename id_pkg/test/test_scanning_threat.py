@@ -1,8 +1,7 @@
 import unittest
 import git
 import os
-
-
+import id_pkg as intrusion_detect
 # import pandas as pd
 
 class TestScanningThreat(unittest.TestCase):
@@ -10,18 +9,15 @@ class TestScanningThreat(unittest.TestCase):
         self.assertEqual(True, True)
 
     def test_scanning_threat_create_sample_log(self):
-        # % ASA - 4 - 733101: Object objectIP ( is targeted | is attacking). Current burst rate is burst_rate per second,
-        #  max configured rate is max_rate1; Current average rate is average_rate per second, max configured rate is max_rate2;
-        #  Cumulative total count is total_cnt.
+        # % ASA - 4 - 733101: Object objectIP ( is targeted | is attacking). Current burst rate is rate_val per second,
+        # max configured rate is rate_val; Current average rate is rate_val per second, max configured rate is rate_val;
+        # Cumulative total count is total_cnt.
 
         info = {'Date': 'March 30 2021 03:30:30',
                 'Host': 'TEAMNULL',
                 'Type': 'targeted',
                 'ID': '%ASA-4-733101',
-                'burst_rate': '20',
-                'max_rate1': '10',
-                'average_rate': '1',
-                'max_rate2': '5',
+                'rate_val': '20',
                 'total_cnt': '100'}
 
         # Get the path to the data directory in the git repo
@@ -36,12 +32,25 @@ class TestScanningThreat(unittest.TestCase):
                 # Next add whether the port is attacking or being targeted
                 log_string = log_string + ' is ' + info['Type']
                 # Next add all of the burst rates
-                log_string = log_string + 'Current burst rate is ' + info['burst_rate'] + ' per second, '
-                log_string = log_string + 'max configured rate is ' + info['max_rate1'] + '; '
-                log_string = log_string + 'Current average rate is ' + info['average_rate'] + ' per second, '
-                log_string = log_string + 'max configured rate is ' + info['max_rate2'] + '; '
+                log_string = log_string + 'Current burst rate is ' + info['rate_val'] + ' per second, '
+                log_string = log_string + 'max configured rate is ' + info['rate_val'] + '; '
+                log_string = log_string + 'Current average rate is ' + info['rate_val'] + ' per second, '
+                log_string = log_string + 'max configured rate is ' + info['rate_val'] + '; '
                 log_string = log_string + 'Cumulative total count is ' + info['total_cnt'] + '\n'
                 f.write(log_string)
+
+    def test_scanning_threat_parse_log(self):
+        id_syslog = intrusion_detect.IdParse(self.syslog_file)
+
+        # st = scanning threat df = data frame
+        stdf = id_syslog.df[id_syslog.df['ID'] == 733101]
+
+        # expecting a list of 255
+        self.assertEqual(255, len(stdf))
+
+        # expecting a burst rate above 0
+        self.assertGreater(stdf['Burst_Rate'], 0)
+
 
 
 if __name__ == '__main__':
