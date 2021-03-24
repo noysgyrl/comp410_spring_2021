@@ -70,9 +70,15 @@ class IdParse(LogParse):
         # Cumulative total count is total_cnt.
 
         if rec['ID'] == 733101:
-            m = re.search(r'Current burst rate is (\d+) per second,', rec['Text'])
+            m = re.search(r'Current burst rate is (\d+) per second, max configured rate is (\d+); '
+                          r'Current average rate is (\d+) per second, max configured rate is (\d+); '
+                          r'Cumulative total count is (\d+)', rec['Text'])
             if m:
                 rec['Burst_Rate'] = int(m.group(1))
+                rec['Max Configured Rate 1'] = int(m.group(2))
+                rec['Average Rate'] = int(m.group(3))
+                rec['Max Configured Rate 2'] = int(m.group(4))
+                rec['Total Count'] = int(m.group(5))
 
         return rec
 
