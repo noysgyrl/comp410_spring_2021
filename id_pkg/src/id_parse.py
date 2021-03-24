@@ -23,6 +23,9 @@ class IdParse(LogParse):
     def has_acldrop(self):
         return (self.df['ID'] == 733100).any()
 
+    def has_interface(self):
+        return (self.df['ID'] == 106001).any()
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
@@ -38,7 +41,7 @@ class IdParse(LogParse):
             m = re.search(r'User at (\d+\.\d+\.\d+\.\d+) exceeded auth proxy connection limit \(max\)', rec['Text'])
             if m:
                 rec['Source'] = m.group(1)
-                
+
         # %ASA-3-713162: Remote user (session Id - id) has been rejected by the Firewall Server
         if rec['ID'] == 713162:
             m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
@@ -64,7 +67,16 @@ class IdParse(LogParse):
                 rec['CurrentAverageRate'] = m.group(4)
                 rec['MaxConfigRate2'] = m.group(5)
                 rec['TotalCount'] = m.group(6)
-                
+
+        # %ASA-2-106001: Inbound TCP connection denied from 10.132.0.147/2257 to 172.16.10.10/80 flags SYN on interface inside
+        if rec['ID'] == 106001:
+            m = re.search(r'denied from (\d+\.\d+\.\d+.\d+)\/(\d+) to (\d+.\d+.\d+.\d+)\/(\d+)', rec['Text'])
+            if m:
+                rec['Source'] = m.group(1)
+                rec['SourcePort'] = m.group(2)
+                rec['Destination'] = m.group(3)
+                rec['DestinationPort'] = m.group(4)
+
         return rec
 
     def handle_syslog_message(self, line):
