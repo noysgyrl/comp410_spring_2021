@@ -23,6 +23,9 @@ class IdParse(LogParse):
     def has_acldrop(self):
         return (self.df['ID'] == 733100).any()
 
+    def has_scanning_threat(self):
+        return (self.df['ID'] == 733101).any()
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface

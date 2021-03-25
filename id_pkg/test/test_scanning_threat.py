@@ -57,6 +57,9 @@ class TestScanningThreat(unittest.TestCase):
         self.assertTrue((stdf['Max Configured Rate 2'] > 0).all())
         self.assertTrue((stdf['Total Count'] > 0).all())
 
+    def test_has_scanning_threat(self):
+        id_syslog = intrusion_detect.IdParse(self.syslog_file)
+        self.assertTrue(id_syslog.has_scanning_threat())
 
 
 if __name__ == '__main__':
