@@ -23,6 +23,9 @@ class IdParse(LogParse):
     def has_acldrop(self):
         return (self.df['ID'] == 733100).any()
 
+    def has_interface(self):
+        return (self.df['ID'] == 106001).any()
+
     def has_scanning_threat(self):
         return (self.df['ID'] == 733101).any()
 
@@ -41,7 +44,7 @@ class IdParse(LogParse):
             m = re.search(r'User at (\d+\.\d+\.\d+\.\d+) exceeded auth proxy connection limit \(max\)', rec['Text'])
             if m:
                 rec['Source'] = m.group(1)
-
+                
         # %ASA-3-713162: Remote user (session Id - id) has been rejected by the Firewall Server
         if rec['ID'] == 713162:
             m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
@@ -67,6 +70,16 @@ class IdParse(LogParse):
                 rec['CurrentAverageRate'] = m.group(4)
                 rec['MaxConfigRate2'] = m.group(5)
                 rec['TotalCount'] = m.group(6)
+
+        # %ASA-2-106001: Inbound TCP connection denied from 10.132.0.147/2257 to 172.16.10.10/80 flags SYN on interface inside
+        if rec['ID'] == 106001:
+            m = re.search(r'denied from (\d+\.\d+\.\d+.\d+)\/(\d+) to (\d+.\d+.\d+.\d+)\/(\d+)', rec['Text'])
+            if m:
+                rec['Source'] = m.group(1)
+                rec['SourcePort'] = m.group(2)
+                rec['Destination'] = m.group(3)
+                rec['DestinationPort'] = m.group(4)
+
 
         # % ASA - 4 - 733101: Object objectIP ( is targeted | is attacking). Current burst rate is rate_val per second,
         # max configured rate is rate_val; Current average rate is rate_val per second, max configured rate is rate_val;
