@@ -101,9 +101,8 @@ class IdParse(LogParse):
 
         # %ASA-4-313004: Denied ICMP type=icmp_type, from source_address on interface interface_name to dest_address:no matching session
         if rec['ID'] == 313004:
-            m = re.search(r'Denied ICMP type=(\d+), from (\d+\.\d+\.\d+.\d+) on interface (\w +) '
-                          r'to (\d +\.\d +\.\d +.\d +):no matching session', rec['Text'])
-
+            m = re.search(r'Denied ICMP type=(\d+), from (\d+\.\d+\.\d+\.\d+) on interface (\w+) '
+                          r'to (\d+\.\d+\.\d+\.\d+):no matching session', rec['Text'])
             if m:
                 rec['ICMPType'] = m.group(1)
                 rec['Source'] = m.group(2)

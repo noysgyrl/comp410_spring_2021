@@ -20,24 +20,27 @@ class TestICMPDenial(unittest.TestCase):
 
     # Creates sample log file
     with open(syslog_file, 'w') as outfile:
-        for ip1, ip2 in range(1, 256, 1),:
-            for icmp in range(1, 41, 1),:
+        icmp = 0
+        for ip1 in range(1, 256, 1):
+            # Increment ICMP type by 1 until it hits 40
+            # then reset it to 1
+            icmp += 1
+            if icmp > 40:
+                icmp = 1
                 # basic message
-                log_string = info['Date'] + ' ' + info['Host'] + ' : ' + info['ID'] + ': '
-                # add ICMP type
-                log_string = log_string + 'Denied ICMP type ' + str(icmp) + ", from "
-                # add source address (?????)
-                log_string = log_string + str(ip1)
-                # add interface
-                log_string = log_string + ' on interface ' + info['Interface']
-                # add destination address (?????)
-                log_string = log_string + ' to ' + str(ip2) + ':no matching session' + '\n'
-                outfile.write(log_string)
-
+            log_string = info['Date'] + ' ' + info['Host'] + ' : ' + info['ID'] + ': '
+            # add ICMP type
+            log_string = log_string + 'Denied ICMP type=' + str(icmp) + ", from "
+            # add source address (?????)
+            log_string = log_string + '10.1.1.' + str(ip1)
+            # add interface
+            log_string = log_string + ' on interface ' + info['Interface']
+            # add destination address (?????)
+            log_string = log_string + ' to ' + '172.18.1.' + str(ip1) + ':no matching session' + '\n'
+            outfile.write(log_string)
 
     def test_denied_icmp_stub(self):
         self.assertEqual(True, True)
-
 
     def test_denied_icmp_parse_log(self):
         id_syslog = id_pkg.IdParse(self.syslog_file)
@@ -63,5 +66,5 @@ class TestICMPDenial(unittest.TestCase):
         self.assertTrue(id_syslog.has_denied_icmp())
 
 
-    if __name__ == '__main__':
-        unittest.main()
+if __name__ == '__main__':
+    unittest.main()
