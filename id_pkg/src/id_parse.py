@@ -29,6 +29,9 @@ class IdParse(LogParse):
     def has_scanning_threat(self):
         return (self.df['ID'] == 733101).any()
 
+    def has_denied_icmp(self):
+        return (self.df['ID'] == 313004).any()
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
@@ -95,6 +98,17 @@ class IdParse(LogParse):
                 rec['Average Rate'] = int(m.group(3))
                 rec['Max Configured Rate 2'] = int(m.group(4))
                 rec['Total Count'] = int(m.group(5))
+
+        # %ASA-4-313004: Denied ICMP type=icmp_type, from source_address on interface interface_name to dest_address:no matching session
+        if rec['ID'] == 313004:
+            m = re.search(r'Denied ICMP type=(\d+), from (\d+\.\d+\.\d+.\d+) on interface (\w +) '
+                          r'to (\d +\.\d +\.\d +.\d +):no matching session', rec['Text'])
+
+            if m:
+                rec['ICMPType'] = m.group(1)
+                rec['Source'] = m.group(2)
+                rec['Interface'] = m.group(3)
+                rec['Destination'] = m.group(4)
 
         return rec
 
