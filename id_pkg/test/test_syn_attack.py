@@ -51,13 +51,10 @@ class TestSynAttack(unittest.TestCase):
         self.assertEqual(255, sdf['Destination'].nunique())
 
     def test_has_syn_attack(self):
-        self.assertTrue(True)
-        # id_syslog = intrusion_detect.IdParse(self.syslog_file)
-        #
-        # # The test file generated has ip spoofing present
-        # # so expect this to return true
-        # self.assertTrue(id_syslog.has_ip_spoofing())
-
+        id_syslog = intrusion_detect.IdParse(self.syslog_file)
+        # The test file generated has ip spoofing present
+        # so expect this to return true
+        self.assertTrue(id_syslog.has_syn_attack())
 
 if __name__ == '__main__':
     unittest.main()

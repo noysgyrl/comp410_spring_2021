@@ -32,6 +32,9 @@ class IdParse(LogParse):
     def has_denied_icmp(self):
         return (self.df['ID'] == 313004).any()
 
+    def has_syn_attack(self):
+        return (self.df['ID'] == 419002).any()
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
