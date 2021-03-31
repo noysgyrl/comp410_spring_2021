@@ -109,6 +109,16 @@ class IdParse(LogParse):
                 rec['Interface'] = m.group(3)
                 rec['Destination'] = m.group(4)
 
+        # %ASA-4-419002: Received duplicate TCP SYN from in_interface:src_address/src_port to
+        # out_interface:dest_address/dest_port
+        if rec['ID'] == 419002:
+            m = re.search(r'Received duplicate TCP SYN from in_interface:(\d+\.\d+\.\d+\.\d+)/(\d+) to out_interface:(\d+\.\d+\.\d+\.\d+)/(\d+)', rec['Text'])
+            if m:
+                rec['Source'] = m.group(1)
+                rec['Source Port'] = m.group(2)
+                rec['Destination'] = m.group(3)
+                rec['Destination Port'] = m.group(4)
+
         return rec
 
     def handle_syslog_message(self, line):

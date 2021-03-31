@@ -33,23 +33,22 @@ class TestSynAttack(unittest.TestCase):
         self.assertEqual(True, True)
 
     def test_syn_attack_parse_log(self):
-        self.assertTrue(True)
-        # # Create an IdParse object
-        # id_syslog = intrusion_detect.IdParse(self.syslog_file)
-        #
-        # # Check to make sure the ip spoofing information got added to the dataframe
-        # # Get a subset of the whole dataframe
-        # # s=spoof df=dataframe
-        # sdf = id_syslog.df[id_syslog.df['ID'] == 106016]
-        #
-        # # Expecting 255 total records
-        # self.assertEqual(255, len(sdf))
-        #
-        # # Expecting 1 source address
-        # self.assertTrue((sdf['Source'] == '10.1.1.1').all())
-        #
-        # # Expecting 255 unique destination addresses
-        # self.assertEqual(255, sdf['Destination'].nunique())
+        # Create an IdParse object
+        id_syslog = intrusion_detect.IdParse(self.syslog_file)
+
+        # Check to make sure the ip spoofing information got added to the dataframe
+        # Get a subset of the whole dataframe
+        # s=spoof df=dataframe
+        sdf = id_syslog.df[id_syslog.df['ID'] == 419002]
+
+        # Expecting 255 total records
+        self.assertEqual(255, len(sdf))
+
+        # Expecting 1 source address
+        self.assertTrue((sdf['Source'] == '10.1.1.1').all())
+
+        # Expecting 255 unique destination addresses
+        self.assertEqual(255, sdf['Destination'].nunique())
 
     def test_has_syn_attack(self):
         self.assertTrue(True)
