@@ -35,6 +35,13 @@ class IdParse(LogParse):
     def has_syn_attack(self):
         return (self.df['ID'] == 419002).any()
 
+    def get_low_severity(self):
+        return self.df[self.df['Severity'] >= 6]
+
+    def get_high_severity(self):
+        return self.df[self.df['Severity'] <= 5]
+
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
@@ -140,8 +147,12 @@ class IdParse(LogParse):
 
     def syslog_to_dataframe(self, syslog_file):
         """Returns a dataframe from a sample syslog file"""
+        # Improve pandas performance by creating a list first
+        rec_list = []
         # Read the syslog file and parse it into our dataframe
         with open(syslog_file, encoding='utf-8') as f:
             for line in f:
                 # Create a record to hold this line in the syslog file
-                self.df = self.df.append(self.handle_syslog_message(line), ignore_index=True)
+                rec_list.append(self.handle_syslog_message(line))
+        # Create the dataframe from the list
+        self.df = pd.DataFrame(rec_list)
