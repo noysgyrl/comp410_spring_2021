@@ -30,6 +30,12 @@ def pandas_demo():
     # what was done during sprint 3
     log = intrusion_detect.IdParse(log_file)
 
+    low_severity = log.get_low_severity()
+    # low_severity = log.df[log.df['Severity'] >= 6]
+
+    print('These are the unique low severity messages')
+    print(low_severity['ID'].unique())
+
     # Are there spoofing attacks in this log?
     if log.has_ip_spoofing():
         print('Spoofing attacks are present')
