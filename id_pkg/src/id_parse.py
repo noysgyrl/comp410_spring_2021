@@ -35,6 +35,12 @@ class IdParse(LogParse):
     def has_syn_attack(self):
         return (self.df['ID'] == 419002).any()
 
+    def get_low_severity(self):
+        return self.df[self.df['Severity'] >= 6]
+
+    def get_high_severity(self):
+        return self.df[self.df['Severity'] <= 5]
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
@@ -50,7 +56,7 @@ class IdParse(LogParse):
             m = re.search(r'User at (\d+\.\d+\.\d+\.\d+) exceeded auth proxy connection limit \(max\)', rec['Text'])
             if m:
                 rec['Source'] = m.group(1)
-                
+
         # %ASA-3-713162: Remote user (session Id - id) has been rejected by the Firewall Server
         if rec['ID'] == 713162:
             m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
@@ -86,7 +92,6 @@ class IdParse(LogParse):
                 rec['Destination'] = m.group(3)
                 rec['DestinationPort'] = m.group(4)
 
-
         # % ASA - 4 - 733101: Object objectIP ( is targeted | is attacking). Current burst rate is rate_val per second,
         # max configured rate is rate_val; Current average rate is rate_val per second, max configured rate is rate_val;
         # Cumulative total count is total_cnt.
@@ -115,7 +120,9 @@ class IdParse(LogParse):
         # %ASA-4-419002: Received duplicate TCP SYN from in_interface:src_address/src_port to
         # out_interface:dest_address/dest_port
         if rec['ID'] == 419002:
-            m = re.search(r'Received duplicate TCP SYN from in_interface:(\d+\.\d+\.\d+\.\d+)/(\d+) to out_interface:(\d+\.\d+\.\d+\.\d+)/(\d+)', rec['Text'])
+            m = re.search(
+                r'Received duplicate TCP SYN from in_interface:(\d+\.\d+\.\d+\.\d+)/(\d+) to out_interface:(\d+\.\d+\.\d+\.\d+)/(\d+)',
+                rec['Text'])
             if m:
                 rec['Source'] = m.group(1)
                 rec['Source Port'] = m.group(2)
