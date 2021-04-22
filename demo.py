@@ -33,7 +33,7 @@ def pandas_demo():
     high_severity = log.get_high_severity()
     # high_severity = log.df[log.df['Severity'] <= 5]
 
-    print('These are the unique high severity messages')
+    print('These are the unique high severity messages:')
     print(high_severity['ID'].unique())
 
     # Are there spoofing attacks in this log?
