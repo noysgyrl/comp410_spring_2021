@@ -3108,7 +3108,7 @@ Mar 30 2021 16:20:30 HOST : %ASA-4-733100: drop rate-195 exceeded. Current burst
 Mar 30 2021 16:20:31 HOST : %ASA-6-305011: Built dynamic TCP translation from VlanDMZ:10.86.220.178/1126 to Vlan10:172.205.245.150/6176
 Mar 30 2021 16:20:40 HOST : %ASA-4-109017: User at 10.203.254.195 exceeded auth proxy connection limit (max)
 Mar 30 2021 16:20:46 HOST : %ASA-6-305011: Built dynamic TCP translation from VlanDMZ:10.67.205.249/4484 to Vlan10:172.254.34.203/4544
-Mar 30 2021 16:20:50 HOST : %ASA-3-713162: Remote user (db248b6cbdc547bbc6c6fdfb6916eeb - 195) has been rejected by the Firewall Server
+Mar 30 2021 16:20:50 HOST : %ASA-3-106001: Remote user (db248b6cbdc547bbc6c6fdfb6916eeb - 195) has been rejected by the Firewall Server
 Mar 30 2021 16:20:55 HOST : %ASA-6-305011: Built dynamic TCP translation from VlanDMZ:10.21.254.50/3738 to Vlan10:172.152.216.86/4057
 Mar 30 2021 16:21:10 HOST : %ASA-4-313004: Denied ICMP type=35, from 10.1.1.195 on interface interface_name to 172.18.1.195:no matching session
 Mar 30 2021 16:21:15 HOST : %ASA-6-305011: Built dynamic TCP translation from VlanDMZ:10.91.202.6/572 to Vlan10:172.235.185.129/2094

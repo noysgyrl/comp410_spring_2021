@@ -64,7 +64,7 @@ class IdParse(LogParse):
         if rec['ID'] == 713162:
             m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
             if m:
-                rec['SessionID'] = m.group(1)
+                rec['Session'] = m.group(1)
                 rec['Identifier'] = m.group(2)
 
             # %ASA-4-733100: Object drop rate rate_ID exceeded.
@@ -135,7 +135,7 @@ class IdParse(LogParse):
         if rec['ID'] == 713160:
             m = re.search(r' user \((\w+) - (\w+)\)', rec['Text'])
             if m:
-                rec['SessionID'] = m.group(1)
+                rec['Session'] = m.group(1)
                 rec['Identifier'] = m.group(2)
 
         return rec
