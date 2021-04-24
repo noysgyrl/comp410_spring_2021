@@ -35,6 +35,9 @@ class IdParse(LogParse):
     def has_syn_attack(self):
         return (self.df['ID'] == 419002).any()
 
+    def has_granted_access_firewall(self):
+        return (self.df['ID'] == 713160).any()
+
     def get_low_severity(self):
         return self.df[self.df['Severity'] >= 6]
 
@@ -61,7 +64,7 @@ class IdParse(LogParse):
         if rec['ID'] == 713162:
             m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
             if m:
-                rec['Session'] = m.group(1)
+                rec['SessionID'] = m.group(1)
                 rec['Identifier'] = m.group(2)
 
             # %ASA-4-733100: Object drop rate rate_ID exceeded.
@@ -127,6 +130,13 @@ class IdParse(LogParse):
                 rec['Source Port'] = m.group(2)
                 rec['Destination'] = m.group(3)
                 rec['Destination Port'] = m.group(4)
+
+        #%ASA-7-713160: Remote user (session Id - id) has been granted access by the Firewall Server
+        if rec['ID'] == 713160:
+            m = re.search(r' user \((\w+) - (\w+)\)', rec['Text'])
+            if m:
+                rec['SessionID'] = m.group(1)
+                rec['Identifier'] = m.group(2)
 
         return rec
 
