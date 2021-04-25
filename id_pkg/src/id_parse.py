@@ -35,6 +35,9 @@ class IdParse(LogParse):
     def has_syn_attack(self):
         return (self.df['ID'] == 419002).any()
 
+    def has_granted_access_firewall(self):
+        return (self.df['ID'] == 713160).any()
+
     def get_low_severity(self):
         return self.df[self.df['Severity'] >= 6]
 
