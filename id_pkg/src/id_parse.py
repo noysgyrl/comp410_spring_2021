@@ -132,6 +132,13 @@ class IdParse(LogParse):
                 rec['Destination'] = m.group(3)
                 rec['Destination Port'] = m.group(4)
 
+        #%ASA-7-713160: Remote user (session Id - id) has been granted access by the Firewall Server
+        if rec['ID'] == 713160:
+            m = re.search(r' user \((\w+) - (\w+)\)', rec['Text'])
+            if m:
+                rec['Session'] = m.group(1)
+                rec['Identifier'] = m.group(2)
+
         return rec
 
     def handle_syslog_message(self, line):
