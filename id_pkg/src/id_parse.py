@@ -59,7 +59,7 @@ class IdParse(LogParse):
             m = re.search(r'User at (\d+\.\d+\.\d+\.\d+) exceeded auth proxy connection limit \(max\)', rec['Text'])
             if m:
                 rec['Source'] = m.group(1)
-                
+
         # %ASA-3-713162: Remote user (session Id - id) has been rejected by the Firewall Server
         if rec['ID'] == 713162:
             m = re.search(r'user \((\w+) - (\w+)\)', rec['Text'])
@@ -95,7 +95,6 @@ class IdParse(LogParse):
                 rec['Destination'] = m.group(3)
                 rec['DestinationPort'] = m.group(4)
 
-
         # % ASA - 4 - 733101: Object objectIP ( is targeted | is attacking). Current burst rate is rate_val per second,
         # max configured rate is rate_val; Current average rate is rate_val per second, max configured rate is rate_val;
         # Cumulative total count is total_cnt.
@@ -124,7 +123,9 @@ class IdParse(LogParse):
         # %ASA-4-419002: Received duplicate TCP SYN from in_interface:src_address/src_port to
         # out_interface:dest_address/dest_port
         if rec['ID'] == 419002:
-            m = re.search(r'Received duplicate TCP SYN from in_interface:(\d+\.\d+\.\d+\.\d+)/(\d+) to out_interface:(\d+\.\d+\.\d+\.\d+)/(\d+)', rec['Text'])
+            m = re.search(
+                r'Received duplicate TCP SYN from in_interface:(\d+\.\d+\.\d+\.\d+)/(\d+) to out_interface:(\d+\.\d+\.\d+\.\d+)/(\d+)',
+                rec['Text'])
             if m:
                 rec['Source'] = m.group(1)
                 rec['Source Port'] = m.group(2)

@@ -30,6 +30,12 @@ def pandas_demo():
     # what was done during sprint 3
     log = intrusion_detect.IdParse(log_file)
 
+    high_severity = log.get_high_severity()
+    # high_severity = log.df[log.df['Severity'] <= 5]
+
+    print('These are the unique high severity messages :')
+    print(high_severity['ID'].unique())
+
     # Are there spoofing attacks in this log?
     if log.has_ip_spoofing():
         print('Spoofing attacks are present')
@@ -37,3 +43,8 @@ def pandas_demo():
 if __name__ == "__main__":
     # show_aggie_pride()
     pandas_demo()
+
+
+
+
+
