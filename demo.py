@@ -31,14 +31,24 @@ def pandas_demo():
     log = intrusion_detect.IdParse(log_file)
 
     high_severity = log.get_high_severity()
-    # high_severity = log.df[log.df['Severity'] <= 5]
+    low_severity = log.get_low_severity()
 
-    print('These are the unique high severity messages :')
-    print(high_severity['ID'].unique())
+    # prints unique IP addresses of high severity attacks
+    attacker_ip = high_severity['Source'].dropna().unique()
+
+    print('These are the unique high severity IP Addresses :')
+    print(attacker_ip)
+
+    # Get suspicious IP Address of attack ip that were successful in connecting
+    suspicious = low_severity[low_severity['Source'].isin(attacker_ip)]
+
+    # Export the report as an excel file
+    suspicious.to_excel('suspicious.xlsx')
 
     # Are there spoofing attacks in this log?
     if log.has_ip_spoofing():
         print('Spoofing attacks are present')
+
 
 if __name__ == "__main__":
     # show_aggie_pride()
