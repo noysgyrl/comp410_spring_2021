@@ -38,6 +38,9 @@ class IdParse(LogParse):
     def has_granted_access_firewall(self):
         return (self.df['ID'] == 713160).any()
 
+    def has_new_translation_slot(self):
+        return (self.df['ID'] == 305011).any()
+
     def get_low_severity(self):
         return self.df[self.df['Severity'] >= 6]
 
@@ -137,6 +140,13 @@ class IdParse(LogParse):
             if m:
                 rec['Session'] = m.group(1)
                 rec['Identifier'] = m.group(2)
+
+        # %ASA-6-305011: Built {dynamic|static} {TCP|UDP|ICMP} translation from interface_name :real_address/real_port [(idfw_user )] to interface_name :mapped_address/mapped_port
+        if rec['ID'] == 305011:
+            m = re.search(r' from interface_name \((\w+) to interface_name (\w+)\)', rec['Text'])
+            if m:
+                rec['Real Address'] = m.group(1)
+                rec['Mapped Address'] = m.group(2)
 
         return rec
 
