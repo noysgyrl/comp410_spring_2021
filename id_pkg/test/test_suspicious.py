@@ -29,9 +29,5 @@ class TestSuspicious(unittest.TestCase):
         attacker_ip = high_severity['Source'].dropna().unique()
         print(attacker_ip)
 
-        low_severity = self.log.get_low_severity()
-        suspicious = low_severity[low_severity['Source'].isin(attacker_ip)]
-        suspicious.to_excel('suspicious.xlsx')
-
         #force fail
         self.assertTrue(True)
