@@ -33,3 +33,12 @@ class TestSuspicious(unittest.TestCase):
         #force fail
         self.assertTrue(True)
 
+    def get_suspicious(self):
+        suspicious = self.log.get_suspicious()
+        print("Suspicious IP Addresses:")
+        print(suspicious['Source'])
+
+        #suspicious.to_excel('suspicious.xlsx') ???
+
+        # force fail
+        self.assertTrue(True)
