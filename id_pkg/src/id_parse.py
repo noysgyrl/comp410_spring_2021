@@ -47,6 +47,9 @@ class IdParse(LogParse):
     def get_high_severity(self):
         return self.df[self.df['Severity'] <= 5]
 
+    def get_suspicious(self):
+        return self.get_low_severity() + self.get_high_severity()
+
     def handle_asa_message(self, rec):
         """Implement ASA specific messages"""
         # %ASA-2-106016: Deny IP spoof from (10.1.1.1) to 10.11.11.19 on interface TestInterface
