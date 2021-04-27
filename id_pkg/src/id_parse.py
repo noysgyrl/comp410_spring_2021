@@ -47,7 +47,7 @@ class IdParse(LogParse):
     def get_high_severity(self):
         return self.df[self.df['Severity'] <= 5]
 
-    def get_suspicious(self):
+    def get_all(self):
         return self.get_low_severity() + self.get_high_severity()
 
     def handle_asa_message(self, rec):

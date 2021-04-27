@@ -49,6 +49,7 @@ def pandas_demo():
     if log.has_ip_spoofing():
         print('Spoofing attacks are present')
 
+
 if __name__ == "__main__":
     # show_aggie_pride()
     pandas_demo()

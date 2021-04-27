@@ -30,11 +30,6 @@ class TestSuspicious(unittest.TestCase):
         attacker_ip = high_severity['Source'].dropna().unique()
         print(attacker_ip)
 
-    def get_suspicious(self):
-        suspicious = self.log.get_suspicious()
-        print("Suspicious IP Addresses:")
-        print(suspicious['Source'])
-
-       # suspicious.to_excel('suspicious.xlsx') ???
-        # force fail
+        #force fail
         self.assertTrue(True)
+
